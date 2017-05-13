@@ -3,7 +3,7 @@
 向量相关操作
 
 <table>
-    <th><td>方法名</td><td>说明</td></th>
+    <tr><th>方法名</th><th>说明</th></tr>
     <tr><td>Vector([x,x,x,...])</td><td>初始化向量</td></tr>
     <tr><td>+</td><td>返回两个向量相加之后得到的新向量</td></tr>
     <tr><td>-</td><td>返回两个向量相减之后得到的新向量</td></tr>
