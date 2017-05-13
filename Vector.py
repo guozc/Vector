@@ -90,3 +90,41 @@ class Vector(object):
     def is_orthogonal_with(self,other):
         return abs(self.dot(other))<1e-10
 
+    """一个向量在另一个向量上的投影,即一个向量在另一个向量上的平行分量"""
+    def projection_component(self,other):
+        try:
+            magnitude = self.dot(other)/other.magnitude()
+            return other.direction().scalar(magnitude)
+        except Exception as e:
+            if str(e) == self.MSG_ZERO_ERR:
+                raise Exception("Zero vectors do not have unique parallel vectors")
+
+    """一个向量在另一个向量上的垂直分量"""
+    def orthogonal_component(self,other):
+        try:
+            projection = self.projection_component(other)
+            return self - projection
+        except Exception as e :
+            if str(e) == self.MSG_ZERO_ERR:
+                raise Exception("Zero vectors do not have unique vertical vectors")
+
+    """将1、2维向量转成3维向量"""
+    def to_vector3(self):
+        zero_vector3 = Vector([0.,0.,0.])
+        new_vector3 = zero_vector3+self
+        if new_vector3.dimension<3:
+            for i in range(0,3-new_vector3.dimension%3):
+                new_vector3 = Vector(new_vector3.coordinates+[0.])
+        return new_vector3
+
+
+    """叉乘，3维向量有几何意义"""
+    def cross(self,other):
+        ax,ay,az = self.to_vector3().coordinates
+        bx,by,bz = other.to_vector3().coordinates
+
+        return Vector([ay*bz-az*by,-(ax*bz-az*bx),ax*by-ay*bx])
+
+    """组成平面的面积"""
+    def area_cross(self,other):
+        return self.cross(other).magnitude()
